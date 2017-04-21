@@ -21,8 +21,8 @@ class MainActivity() : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        val tv = findViewById(R.id.text1) as TextView
-//        tv.text = "こんにちは、せかい"
+        val tv = findViewById(R.id.text1) as TextView
+        tv.text = "こんにちは、せかい"
 
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         val user = User("Test", "User")
@@ -37,16 +37,19 @@ class MainActivity() : AppCompatActivity() {
         this.render(realm)
 
         val button = findViewById(R.id.button) as Button
-        button.setOnClickListener{ onClickAdd(realm) }
+        button.setOnClickListener{ onClickAdd(realm, binding) }
 
     }
 
     val onClickAdd =  {
-        realm: Realm ->
+        realm: Realm ,binding: ActivityMainBinding ->
         val et = findViewById(R.id.editText) as EditText
 
         this.addTodo(realm, et.text.toString())
         this.render(realm)
+        val user = binding.user
+        user.firstName = "aaaa"
+        binding.user = user
 
         Toast.makeText(baseContext, "[" + et.text.toString() + "]追加", Toast.LENGTH_LONG).show()
     }
