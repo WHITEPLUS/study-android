@@ -16,9 +16,5 @@ http://qiita.com/knakamigawa/items/de0082d2a8449b09acf6
 ### データバインディング
 http://qiita.com/knakamigawa/private/ece318fe22188e3a3e97
 
-- TODO:意義とか、書く　　
-- TODO:コードの説明もうちょい丁寧に　　
-- TODO:双方向とかRecyclerView向けの書き方とか足す
-
-### Relam
+### Relam　& RecyclerView DataBinding
 Comming soon...
