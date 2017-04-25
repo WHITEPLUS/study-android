@@ -30,19 +30,22 @@ class MainActivity() : AppCompatActivity() {
         val realm = Realm.getInstance(realmConfig)
         Log.d("realm-path", "path: " + realm.path)
 
-        this.render(realm)
+
+        val props = realm.where(Todo::class.java).findAll()
+        val mAdapter = TodoAdapter(props)
+
+        this.render(realm, mAdapter)
 
         val button = findViewById(R.id.button) as Button
-        button.setOnClickListener{ onClickAdd(realm, binding) }
+        button.setOnClickListener{ onClickAdd(realm, binding, mAdapter) }
 
     }
 
     val onClickAdd =  {
-        realm: Realm ,binding: ActivityMainBinding ->
+        realm: Realm ,binding: ActivityMainBinding, mAdapter: TodoAdapter ->
 
         this.addTodo(realm, binding.todoForm.todoText)
-
-        this.render(realm)
+        mAdapter.notifyDataSetChanged()
 
         Toast.makeText(baseContext, "[" + binding.todoForm.todoText + "]追加", Toast.LENGTH_LONG).show()
         binding.todoForm = TodoForm()
@@ -58,16 +61,13 @@ class MainActivity() : AppCompatActivity() {
         }
     }
 
-    fun render(realm: Realm) {
+    fun render(realm: Realm, mAdapter: TodoAdapter) {
 
         val mRecyclerView = findViewById(R.id.rView) as RecyclerView;
         mRecyclerView.setHasFixedSize(true)
 
         mRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        val props = realm.where(Todo::class.java).findAll()
-
-        val mAdapter = TodoAdapter(props)
         mRecyclerView.adapter = mAdapter
 
     }
